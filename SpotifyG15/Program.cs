@@ -16,38 +16,40 @@ namespace SpotifyG15
         {
             Spotify spotify = new Spotify(Spotify.GetOAuth());
             Responses.CFID cfid = spotify.CFID;
+            Bitmap bmp;
+            Bitmap vorlage;
+            Graphics gfx;
+
+            vorlage = new Bitmap(Image.FromFile(@"C:\Users\Michael\Documents\visual studio 2015\Projects\SpotifyG15\SpotifyG15\bin\Debug\Vorlage.bmp"));
+            bmp = new Bitmap(Image.FromFile(@"C:\Users\Michael\Documents\visual studio 2015\Projects\SpotifyG15\SpotifyG15\bin\Debug\Vorlage.bmp"));
+            gfx = Graphics.FromImage(bmp);
+            gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            gfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 
             LogitechGSDK.LogiLcdInit("wawd", LogitechGSDK.LOGI_LCD_TYPE_MONO);
-
-            int bufferSize = (LogitechGSDK.LOGI_LCD_MONO_WIDTH * LogitechGSDK.LOGI_LCD_MONO_HEIGHT) - 1;
-            byte[] pixelMatrix = new byte[bufferSize];
-            Random rnd = new Random();
-            for (int i = 0; i < bufferSize; ++i)
-            {
-                byte fillByte;
-                if (rnd.Next(0, 2) == 0)
-                {
-                    fillByte = 0x00;
-                }
-                else
-                {
-                    fillByte = 0xFF;
-                }
-                pixelMatrix[i] = fillByte;
-            }
-            //fill this array with your image
-            LogitechGSDK.LogiLcdMonoSetBackground(pixelMatrix);
-            LogitechGSDK.LogiLcdUpdate();
-            Thread.Sleep(2000);
 
             ConsoleKeyInfo keypressed = new ConsoleKeyInfo();
             while (keypressed.Key != ConsoleKey.Escape)
             {
-                Console.WriteLine(spotify.Status.track.album_resource.name);
-                LogitechGSDK.LogiLcdMonoSetText(0, spotify.Status.track.album_resource.name);
-                LogitechGSDK.LogiLcdUpdate();
-                
-                if(LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_0))
+                DateTime currentTime = new DateTime();
+                DateTime trackLength = new DateTime();
+                double percent = spotify.Status.playing_position / spotify.Status.track.length;
+                int playingPosition = Convert.ToInt32(153 * percent);
+
+                currentTime = currentTime.AddSeconds(spotify.Status.playing_position);
+                trackLength = trackLength.AddSeconds(spotify.Status.track.length);
+
+                //Console.WriteLine(spotify.Status.track.album_resource.name);
+
+                string time = currentTime.Minute.ToString() + " : " + currentTime.Second.ToString() + " / " +
+                    trackLength.Minute.ToString() + " : " + trackLength.Second.ToString();
+
+                gfx.DrawString(spotify.Status.track.album_resource.name, new Font("Courier", 7), Brushes.Black, 5, 1);
+                gfx.DrawString(spotify.Status.track.artist_resource.name, new Font("Courier", 7), Brushes.Black, 5, 11);
+                gfx.DrawString(time, new Font("Courier", 7), Brushes.Black, 5, 21);
+                gfx.FillRectangle(Brushes.Black, new Rectangle(3, 36, playingPosition, 5));
+
+                if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_0))
                 {
                     Console.WriteLine(spotify.Pause);
                 }
@@ -68,10 +70,31 @@ namespace SpotifyG15
 
                 }
 
-                Thread.Sleep(500);
+                FillFromBitmap(bmp);
+                Thread.Sleep(200);
+                gfx.DrawImage(vorlage, new Point(0,0));
                 //keypressed = Console.ReadKey();
             }
             LogitechGSDK.LogiLcdShutdown();
+        }
+
+        private static void FillFromBitmap(Bitmap bmp)
+        {
+            int bufferSize = (LogitechGSDK.LOGI_LCD_MONO_WIDTH * LogitechGSDK.LOGI_LCD_MONO_HEIGHT);
+            byte[] pixelMatrix = new byte[bufferSize];
+
+            for (int y = 0; y < LogitechGSDK.LOGI_LCD_MONO_HEIGHT; ++y)
+            {
+                for (int x = 0; x < LogitechGSDK.LOGI_LCD_MONO_WIDTH; ++x)
+                {
+                    Color trueColor = bmp.GetPixel(x, y);
+                    byte nColor = (byte)((trueColor.R == 255 && trueColor.G == 255 && trueColor.B == 255) ? 0 : 255);
+
+                    pixelMatrix[x + (y * 160)] = nColor;
+                }
+            }
+            LogitechGSDK.LogiLcdMonoSetBackground(pixelMatrix);
+            LogitechGSDK.LogiLcdUpdate();
         }
     }
 }
