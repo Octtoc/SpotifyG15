@@ -10,11 +10,13 @@ namespace MusicBeePlugin
 {
     public partial class Plugin
     {
-        private Timer timer = new Timer();
+        private System.Timers.Timer timer = new System.Timers.Timer();
         private GDIDynamic.GDIDynamic gdi;
         private MusicBeeApiInterface mbApiInterface;
         private PluginInfo about = new PluginInfo();
         private GDIRollingText title;
+        private GDIRollingText artist;
+        private GDIProgressBar progressLength;
 
         public PluginInfo Initialise(IntPtr apiInterfacePtr)
         {
@@ -36,10 +38,25 @@ namespace MusicBeePlugin
 
             gdi = new GDIDynamic.GDIDynamic((Bitmap)Image.FromFile(@"C:\temp\test.bmp"));
 
-            title = new GDIRollingText(new Rectangle(10, 10, 10, 10), "");
+            title = new GDIRollingText(new Rectangle(10, 5, 10, 10), "");
+            artist = new GDIRollingText(new Rectangle(10, 10, 0, 0), "");
+            progressLength = new GDIProgressBar(new Rectangle(10, 35, 140, 5));
+
             gdi.AddControl(title);
+            gdi.AddControl(artist);
+            gdi.AddControl(progressLength);
+
+            timer.Elapsed += Timer_Elapsed;
+            timer.Interval = 100;
+            timer.Enabled = true;
+            timer.Start();
 
             return about;
+        }
+
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            progressLength.Progress = mbApiInterface.Player_GetPosition();
         }
 
         public bool Configure(IntPtr panelHandle)
@@ -74,11 +91,13 @@ namespace MusicBeePlugin
         // MusicBee is closing the plugin (plugin is being disabled by user or MusicBee is shutting down)
         public void Close(PluginCloseReason reason)
         {
+
         }
 
         // uninstall this plugin - clean up any persisted files
         public void Uninstall()
         {
+
         }
 
         // receive event notifications from MusicBee
@@ -93,14 +112,16 @@ namespace MusicBeePlugin
                     switch (mbApiInterface.Player_GetPlayState())
                     {
                         case PlayState.Playing:
+
                         case PlayState.Paused:
                             // ...
                             break;
                     }
                     break;
                 case NotificationType.TrackChanged:
-                    string artist = mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Artist);
-                    title.Text = mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Artist);
+                    artist.Text = mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Artist);
+                    title.Text = mbApiInterface.NowPlaying_GetFileTag(MetaDataType.TrackTitle);
+                    progressLength.Max = mbApiInterface.NowPlaying_GetDuration();
                     // ...
                     break;
             }

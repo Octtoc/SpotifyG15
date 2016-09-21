@@ -13,8 +13,6 @@ namespace GDIDynamic.Controls
 
         public GDIProgressBar(Rectangle rectangle)
         {
-            _progress = 0;
-            Max = 100;
             OuterRectangle = rectangle;
             InnerRectangle = new Rectangle(OuterRectangle.X, OuterRectangle.Y, 0, 0);
         }
@@ -33,12 +31,9 @@ namespace GDIDynamic.Controls
             }
             set
             {
-                if (Max != 0)
-                {
-                    float percent = (float)value / Max;
-                    int width = Convert.ToInt32(OuterRectangle.Width * percent);
-                    InnerRectangle = new Rectangle(new Point(OuterRectangle.X, OuterRectangle.Y), new Size(width, OuterRectangle.Height));
-                }
+                float percent = (float)value / Max;
+                int width = Convert.ToInt32(OuterRectangle.Width * percent);
+                InnerRectangle = new Rectangle(new Point(OuterRectangle.X, OuterRectangle.Y), new Size(width, OuterRectangle.Height));
                 _progress = value;
             }
         }

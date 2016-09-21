@@ -30,7 +30,7 @@ namespace GDIDynamic
 
             _timer.Elapsed += new ElapsedEventHandler(ATimer_Elapsed);
 
-            _timer.Interval = 200;
+            _timer.Interval = 100;
             _timer.Enabled = true;
             _timer.Start();
         }
@@ -53,7 +53,7 @@ namespace GDIDynamic
 
         private void ATimer_Elapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            Graphics.Clear(Color.White);
+            Graphics.Clear(Color.Transparent);
 
             /*Test Drawings
             Graphics.DrawRectangle(new Pen(Color.Black), new Rectangle(10, 30, 140, 5));
@@ -66,12 +66,12 @@ namespace GDIDynamic
                 gdiControl.Draw(Graphics, CurrentBrush, CurrentFont, CurrentPen);
             }
 
-            FillFromBitmap();
+            FillFromBitmap(Bitmap);
 
             //Bitmap.Save(@"C:\temp\testg.bmp");
         }
 
-        private void FillFromBitmap()
+        private void FillFromBitmap(Bitmap bmp)
         {
             int bufferSize = (LogitechGSDK.LOGI_LCD_MONO_WIDTH * LogitechGSDK.LOGI_LCD_MONO_HEIGHT);
             byte[] pixelMatrix = new byte[bufferSize];
@@ -80,7 +80,7 @@ namespace GDIDynamic
             {
                 for (int x = 0; x < LogitechGSDK.LOGI_LCD_MONO_WIDTH; ++x)
                 {
-                    Color trueColor = Bitmap.GetPixel(x, y);
+                    Color trueColor = bmp.GetPixel(x, y);
                     byte nColor = (byte)((trueColor.R == 255 && trueColor.G == 255 && trueColor.B == 255) ? 0 : 255);
 
                     pixelMatrix[x + (y * 160)] = nColor;
