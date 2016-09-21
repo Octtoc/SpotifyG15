@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\GDIProgressbar.cs" />
+    <Compile Include="Controls\GDIText.cs" />
     <Compile Include="Controls\GDIRollingText.cs" />
     <Compile Include="GDIDynamic.cs" />
     <Compile Include="Controls\IGDIControl.cs" />

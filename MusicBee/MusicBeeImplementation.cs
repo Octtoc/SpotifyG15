@@ -14,8 +14,8 @@ namespace MusicBeePlugin
         private GDIDynamic.GDIDynamic gdi;
         private MusicBeeApiInterface mbApiInterface;
         private PluginInfo about = new PluginInfo();
-        private GDIRollingText title;
-        private GDIRollingText artist;
+        private GDIText title;
+        private GDIText artist;
         private GDIProgressBar progressLength;
 
         public PluginInfo Initialise(IntPtr apiInterfacePtr)
@@ -38,8 +38,8 @@ namespace MusicBeePlugin
 
             gdi = new GDIDynamic.GDIDynamic((Bitmap)Image.FromFile(@"C:\temp\test.bmp"));
 
-            title = new GDIRollingText(new Rectangle(10, 5, 10, 10), "");
-            artist = new GDIRollingText(new Rectangle(10, 10, 0, 0), "");
+            title = new GDIText(new Rectangle(10, 3, 10, 10), "");
+            artist = new GDIText(new Rectangle(10, 12, 0, 0), "");
             progressLength = new GDIProgressBar(new Rectangle(10, 35, 140, 5));
 
             gdi.AddControl(title);
