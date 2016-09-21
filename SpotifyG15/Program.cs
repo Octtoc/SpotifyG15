@@ -58,7 +58,7 @@ namespace SpotifyG15
                 string time = currentTime.Minute.ToString() + " : " + currentTime.Second.ToString() + " / " +
                     trackLength.Minute.ToString() + " : " + trackLength.Second.ToString();
 
-                gfx.DrawString(status.Track.AlbumResource.Name, new Font("Courier", 7), Brushes.Black, 5, 1);
+                gfx.DrawString(status.Track.TrackResource.Name, new Font("Courier", 7), Brushes.Black, 5, 1);
                 gfx.DrawString(status.Track.ArtistResource.Name, new Font("Courier", 7), Brushes.Black, 5, 11);
                 gfx.DrawString(time, new Font("Courier", 7), Brushes.Black, 5, 21);
                 gfx.FillRectangle(Brushes.Black, new Rectangle(3, 36, playingPosition, 5));
