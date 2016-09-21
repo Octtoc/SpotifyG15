@@ -4,18 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E210289F-E317-43E0-8187-FE3F9954830A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SpotifyG15</RootNamespace>
-    <AssemblyName>SpotifyG15</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <RootNamespace>MusicBeePlugin</RootNamespace>
+    <AssemblyName>mb_MusicBeeG15</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,22 +21,20 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,34 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="MusicBeeImplementation.cs" />
+    <Compile Include="MusicBeeInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LogitechLcdWrapper\LogitechLcdWrapper.csproj">
-      <Project>{08c9a4a9-4022-429e-a1d7-85e63eb44e52}</Project>
-      <Name>LogitechLcdWrapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MusicBee\MusicBeeG15.csproj">
-      <Project>{19baee41-19d4-40fa-9b12-6a8b84c926d9}</Project>
-      <Name>MusicBeeG15</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SpotifyAPI-NET\SpotifyAPI\SpotifyAPI.csproj">
-      <Project>{ebbe35e2-7b91-4d7d-b8fc-3a0472f5119d}</Project>
-      <Name>SpotifyAPI</Name>
+    <ProjectReference Include="..\GDIDynamic\GDIDynamic.csproj">
+      <Project>{FA6543F3-96D7-40DC-95FE-B38F6D60495D}</Project>
+      <Name>GDIDynamic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LogitechLcdEnginesWrapper.dll" />
-    <Content Include="vorlage.bmp">
+    <Content Include="LogitechLcdEnginesWrapper.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)\*.*" "C:\Program Files (x86)\MusicBee\Plugins\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,4 +1,5 @@
 ﻿using GDIDynamic.Controls;
+using LogitechLcdWrapper;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -25,11 +26,18 @@ namespace GDIDynamic
             CurrentBrush = Brushes.Black;
             CurrentPen = new Pen(Color.Black);
 
+            LogitechGSDK.LogiLcdInit("G15 TestApp", LogitechGSDK.LOGI_LCD_TYPE_MONO);
+
             _timer.Elapsed += new ElapsedEventHandler(ATimer_Elapsed);
 
             _timer.Interval = 100;
             _timer.Enabled = true;
             _timer.Start();
+        }
+
+        ~GDIDynamic()
+        {
+            CloseLcd();
         }
 
         public Bitmap Bitmap { get; }
@@ -58,7 +66,33 @@ namespace GDIDynamic
                 gdiControl.Draw(Graphics, CurrentBrush, CurrentFont, CurrentPen);
             }
 
+            FillFromBitmap(Bitmap);
+
             //Bitmap.Save(@"C:\temp\testg.bmp");
+        }
+
+        private void FillFromBitmap(Bitmap bmp)
+        {
+            int bufferSize = (LogitechGSDK.LOGI_LCD_MONO_WIDTH * LogitechGSDK.LOGI_LCD_MONO_HEIGHT);
+            byte[] pixelMatrix = new byte[bufferSize];
+
+            for (int y = 0; y < LogitechGSDK.LOGI_LCD_MONO_HEIGHT; ++y)
+            {
+                for (int x = 0; x < LogitechGSDK.LOGI_LCD_MONO_WIDTH; ++x)
+                {
+                    Color trueColor = bmp.GetPixel(x, y);
+                    byte nColor = (byte)((trueColor.R == 255 && trueColor.G == 255 && trueColor.B == 255) ? 0 : 255);
+
+                    pixelMatrix[x + (y * 160)] = nColor;
+                }
+            }
+            LogitechGSDK.LogiLcdMonoSetBackground(pixelMatrix);
+            LogitechGSDK.LogiLcdUpdate();
+        }
+
+        public void CloseLcd()
+        {
+            LogitechGSDK.LogiLcdShutdown();
         }
     }
 }

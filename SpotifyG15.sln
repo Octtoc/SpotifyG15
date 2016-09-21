@@ -11,6 +11,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDIDynamic", "GDIDynamic\GD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyAPI", "SpotifyAPI-NET\SpotifyAPI\SpotifyAPI.csproj", "{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicBeeG15", "MusicBee\MusicBeeG15.csproj", "{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}"
+EndProject
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "MusicBee", "..\..\..\..\..\..\Program Files (x86)\MusicBee\MusicBee.exe", "{35AAA3C0-C71D-4543-8B75-E647FDCC0B3F}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Program Files (x86)\MusicBee\MusicBee.exe
+		RemoteMachine = DESKTOP-RJ81RNQ
+		StartingDirectory = C:\Program Files (x86)\MusicBee
+		Environment = Default
+		LaunchingEngine = 00000000-0000-0000-0000-000000000000
+		UseLegacyDebugEngines = No
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +84,24 @@ Global
 		{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}.Release|x64.Build.0 = Release|Any CPU
 		{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}.Release|x86.ActiveCfg = Release|Any CPU
 		{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}.Release|x86.Build.0 = Release|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Debug|x64.Build.0 = Debug|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Debug|x86.Build.0 = Debug|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Release|x64.ActiveCfg = Release|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Release|x64.Build.0 = Release|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Release|x86.ActiveCfg = Release|Any CPU
+		{19BAEE41-19D4-40FA-9B12-6A8B84C926D9}.Release|x86.Build.0 = Release|Any CPU
+		{35AAA3C0-C71D-4543-8B75-E647FDCC0B3F}.Debug|Any CPU.ActiveCfg = Release|x86
+		{35AAA3C0-C71D-4543-8B75-E647FDCC0B3F}.Debug|x64.ActiveCfg = Release|x86
+		{35AAA3C0-C71D-4543-8B75-E647FDCC0B3F}.Debug|x86.ActiveCfg = Release|x86
+		{35AAA3C0-C71D-4543-8B75-E647FDCC0B3F}.Release|Any CPU.ActiveCfg = Release|x86
+		{35AAA3C0-C71D-4543-8B75-E647FDCC0B3F}.Release|x64.ActiveCfg = Release|x86
+		{35AAA3C0-C71D-4543-8B75-E647FDCC0B3F}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
