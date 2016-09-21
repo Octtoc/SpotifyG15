@@ -1,5 +1,4 @@
 ﻿using LogitechLcdWrapper;
-using SpotifyApi;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,18 +7,30 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using SpotifyAPI.Local;
+using SpotifyAPI.Local.Enums;
+using SpotifyAPI.Local.Models;
+
 namespace SpotifyG15
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Spotify spotify = new Spotify(Spotify.GetOAuth());
-            Responses.CFID cfid = spotify.CFID;
+            SpotifyLocalAPI spotify;
             Bitmap bmp;
             Bitmap vorlage;
             Graphics gfx;
 
+            spotify = new SpotifyLocalAPI();
+            if (!SpotifyLocalAPI.IsSpotifyRunning())
+                return; //Make sure the spotify client is running
+            if (!SpotifyLocalAPI.IsSpotifyWebHelperRunning())
+                return; //Make sure the WebHelper is running
+
+            if (!spotify.Connect())
+                return; //We need to call Connect before fetching infos, this will handle Auth stuff
+            
             vorlage = new Bitmap(Image.FromFile(@"C:\Users\Michael\Documents\visual studio 2015\Projects\SpotifyG15\SpotifyG15\bin\Debug\Vorlage.bmp"));
             bmp = new Bitmap(Image.FromFile(@"C:\Users\Michael\Documents\visual studio 2015\Projects\SpotifyG15\SpotifyG15\bin\Debug\Vorlage.bmp"));
             gfx = Graphics.FromImage(bmp);
@@ -31,27 +42,30 @@ namespace SpotifyG15
             ConsoleKeyInfo keypressed = new ConsoleKeyInfo();
             while (keypressed.Key != ConsoleKey.Escape)
             {
+                StatusResponse status = spotify.GetStatus(); //status contains infos
+
                 DateTime currentTime = new DateTime();
                 DateTime trackLength = new DateTime();
-                double percent = spotify.Status.playing_position / spotify.Status.track.length;
+
+                double percent = status.PlayingPosition / status.Track.Length;
                 int playingPosition = Convert.ToInt32(153 * percent);
 
-                currentTime = currentTime.AddSeconds(spotify.Status.playing_position);
-                trackLength = trackLength.AddSeconds(spotify.Status.track.length);
+                currentTime = currentTime.AddSeconds(status.PlayingPosition);
+                trackLength = trackLength.AddSeconds(status.Track.Length);
 
                 //Console.WriteLine(spotify.Status.track.album_resource.name);
 
                 string time = currentTime.Minute.ToString() + " : " + currentTime.Second.ToString() + " / " +
                     trackLength.Minute.ToString() + " : " + trackLength.Second.ToString();
 
-                gfx.DrawString(spotify.Status.track.album_resource.name, new Font("Courier", 7), Brushes.Black, 5, 1);
-                gfx.DrawString(spotify.Status.track.artist_resource.name, new Font("Courier", 7), Brushes.Black, 5, 11);
+                gfx.DrawString(status.Track.AlbumResource.Name, new Font("Courier", 7), Brushes.Black, 5, 1);
+                gfx.DrawString(status.Track.ArtistResource.Name, new Font("Courier", 7), Brushes.Black, 5, 11);
                 gfx.DrawString(time, new Font("Courier", 7), Brushes.Black, 5, 21);
                 gfx.FillRectangle(Brushes.Black, new Rectangle(3, 36, playingPosition, 5));
 
                 if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_0))
                 {
-                    Console.WriteLine(spotify.Pause);
+                    Console.WriteLine(spotify.Pause());
                 }
                 else if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_1))
                 {
@@ -59,7 +73,7 @@ namespace SpotifyG15
                 }
                 else if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_2))
                 {
-                    Console.WriteLine(spotify.Resume);
+                    Console.WriteLine(spotify.Play());
                 }
                 else if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_3))
                 {
