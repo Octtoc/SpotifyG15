@@ -2,7 +2,6 @@
 using GDIMusic.Controls;
 using LogitechLcdWrapper;
 using SpotifyAPI.Local;
-using SpotifyAPI.Local.Enums;
 using SpotifyAPI.Local.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SpotifyG15
 {
@@ -18,9 +16,8 @@ namespace SpotifyG15
     {
         private static void Main(string[] args)
         {
-            GDIMusic.GDIDynamic gfx = new GDIMusic.GDIDynamic(new Bitmap(160, 43), false);
-
-            SpotifyLocalAPI spotify;
+            GDIMusic.GDIDynamic gfx = new GDIMusic.GDIDynamic(new Bitmap(160, 43));
+            SpotifyLocalAPI spotify = new SpotifyLocalAPI();
 
             GDIText gdiTitle = new GDIText(new Rectangle(5, 1, 0, 0), "");
             GDIText gdiTrack = new GDIText(new Rectangle(5, 11, 0, 0), "");
@@ -32,14 +29,25 @@ namespace SpotifyG15
             gfx.AddControl(gdiTime);
             gfx.AddControl(gdiProgress);
 
-            spotify = new SpotifyLocalAPI();
             if (!SpotifyLocalAPI.IsSpotifyRunning())
-                return; //Make sure the spotify client is running
+            {
+                Console.WriteLine("Spotify is not running");
+                Thread.Sleep(1000);
+                return;
+            }
             if (!SpotifyLocalAPI.IsSpotifyWebHelperRunning())
-                return; //Make sure the WebHelper is running
+            {
+                Console.WriteLine("Spotify is not running");
+                Thread.Sleep(1000);
+                return;
+            }
 
             if (!spotify.Connect())
-                return; //We need to call Connect before fetching infos, this will handle Auth stuff
+            {
+                Console.WriteLine("cannot connect with spotify");
+                Thread.Sleep(1000);
+                return;
+            }
 
             ConsoleKeyInfo keypressed = new ConsoleKeyInfo();
             while (keypressed.Key != ConsoleKey.Escape)

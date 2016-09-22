@@ -3,7 +3,9 @@ using LogitechLcdWrapper;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,9 +28,27 @@ namespace GDIMusic
             Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
             Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
 
-            CurrentFont = new Font("Courier", 7);
+            CurrentFont = new Font("7px2bus", 7);
             CurrentBrush = Brushes.Black;
             CurrentPen = new Pen(Color.Black);
+
+            /*
+            //Create your private font collection object.
+            PrivateFontCollection pfc = new PrivateFontCollection();
+            //Select your font from the resources.
+            //My font here is "Digireu.ttf"
+            int fontLength = Properties.Resources._7pxbus.Length;
+            // create a buffer to read in to
+            byte[] fontdata = Properties.Resources._7pxbus;
+            // create an unsafe memory block for the font data
+            System.IntPtr data = Marshal.AllocCoTaskMem(fontLength);
+            // copy the bytes to the unsafe memory block
+            Marshal.Copy(fontdata, 0, data, fontLength);
+            // pass the font to the font collection
+            pfc.AddMemoryFont(data, fontLength);
+            // free up the unsafe memory
+            Marshal.FreeCoTaskMem(data);
+            */
 
             _timer.Elapsed += new ElapsedEventHandler(ATimer_Elapsed);
 
