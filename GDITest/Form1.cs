@@ -1,4 +1,4 @@
-﻿using GDIDynamic.Controls;
+﻿using GDIMusic.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,13 +13,13 @@ namespace GDITest
 {
     public partial class Form1 : Form
     {
-        private static GDIDynamic.GDIDynamic gdiDynamic;
+        private static GDIMusic.GDIDynamic gdiDynamic;
 
         public Form1()
         {
             InitializeComponent();
 
-            gdiDynamic = new GDIDynamic.GDIDynamic(new Bitmap(160, 43), false);
+            gdiDynamic = new GDIMusic.GDIDynamic(new Bitmap(160, 43), false);
             gdiDynamic.AddControl(new GDIText(new Rectangle(10, 10, 10, 10), "Text"));
             pictureBox1.Image = gdiDynamic.Bitmap;
 

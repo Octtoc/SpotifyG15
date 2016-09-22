@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GDIDynamic.Controls
+namespace GDIMusic.Controls
 {
     public class GDIProgressBar : IGDIControl
     {

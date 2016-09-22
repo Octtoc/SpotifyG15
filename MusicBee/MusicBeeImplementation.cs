@@ -1,5 +1,5 @@
-﻿using GDIDynamic;
-using GDIDynamic.Controls;
+﻿using GDIMusic;
+using GDIMusic.Controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,7 +12,7 @@ namespace MusicBeePlugin
     {
         private PluginInfo about = new PluginInfo();
         private GDIText artist;
-        private GDIDynamic.GDIDynamic gdi;
+        private GDIMusic.GDIDynamic gdi;
         private MusicBeeApiInterface mbApiInterface;
         private GDIProgressBar progressLength;
         private System.Timers.Timer timer = new System.Timers.Timer();
@@ -70,7 +70,7 @@ namespace MusicBeePlugin
             about.ReceiveNotifications = (ReceiveNotificationFlags.PlayerEvents | ReceiveNotificationFlags.TagEvents);
             about.ConfigurationPanelHeight = 0;   // height in pixels that musicbee should reserve in a panel for config settings. When set, a handle to an empty panel will be passed to the Configure function
 
-            gdi = new GDIDynamic.GDIDynamic(new Bitmap(160, 43));
+            gdi = new GDIMusic.GDIDynamic(new Bitmap(160, 43));
 
             title = new GDIText(new Rectangle(10, 3, 10, 10), "");
             artist = new GDIText(new Rectangle(10, 12, 0, 0), "");

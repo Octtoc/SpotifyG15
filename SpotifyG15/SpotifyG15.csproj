@@ -89,6 +89,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GDIDynamic\GDIDynamic.csproj">
+      <Project>{FA6543F3-96D7-40DC-95FE-B38F6D60495D}</Project>
+      <Name>GDIDynamic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogitechLcdWrapper\LogitechLcdWrapper.csproj">
       <Project>{08c9a4a9-4022-429e-a1d7-85e63eb44e52}</Project>
       <Name>LogitechLcdWrapper</Name>

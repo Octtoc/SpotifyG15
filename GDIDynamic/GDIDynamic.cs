@@ -1,4 +1,4 @@
-﻿using GDIDynamic.Controls;
+﻿using GDIMusic.Controls;
 using LogitechLcdWrapper;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace GDIDynamic
+namespace GDIMusic
 {
     public class GDIDynamic
     {
