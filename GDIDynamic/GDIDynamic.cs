@@ -15,8 +15,9 @@ namespace GDIDynamic
         private System.Timers.Timer _timer = new System.Timers.Timer();
         private List<IGDIControl> gdiControlList = new List<IGDIControl>();
 
-        public GDIDynamic(Bitmap xBmpGraphics)
+        public GDIDynamic(Bitmap xBmpGraphics, bool logitechLcd = true)
         {
+            LogitechLcd = logitechLcd;
             Bitmap = xBmpGraphics;
             Graphics = Graphics.FromImage(xBmpGraphics);
             Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
@@ -26,7 +27,10 @@ namespace GDIDynamic
             CurrentBrush = Brushes.Black;
             CurrentPen = new Pen(Color.Black);
 
-            LogitechGSDK.LogiLcdInit("G15 TestApp", LogitechGSDK.LOGI_LCD_TYPE_MONO);
+            if (LogitechLcd)
+            {
+                LogitechGSDK.LogiLcdInit("G15 TestApp", LogitechGSDK.LOGI_LCD_TYPE_MONO);
+            }
 
             _timer.Elapsed += new ElapsedEventHandler(ATimer_Elapsed);
 
@@ -45,10 +49,19 @@ namespace GDIDynamic
         public Font CurrentFont { get; }
         public Pen CurrentPen { get; }
         public Graphics Graphics { get; }
+        public bool LogitechLcd { get; }
 
         public void AddControl(IGDIControl gdiControl)
         {
             gdiControlList.Add(gdiControl);
+        }
+
+        public void CloseLcd()
+        {
+            if (LogitechLcd)
+            {
+                LogitechGSDK.LogiLcdShutdown();
+            }
         }
 
         private void ATimer_Elapsed(object sender, ElapsedEventArgs elapsedEventArgs)
@@ -66,7 +79,10 @@ namespace GDIDynamic
                 gdiControl.Draw(Graphics, CurrentBrush, CurrentFont, CurrentPen);
             }
 
-            FillFromBitmap();
+            if (LogitechLcd)
+            {
+                FillFromBitmap();
+            }
 
             //Bitmap.Save(@"C:\temp\testg.bmp");
         }
@@ -88,11 +104,6 @@ namespace GDIDynamic
             }
             LogitechGSDK.LogiLcdMonoSetBackground(pixelMatrix);
             LogitechGSDK.LogiLcdUpdate();
-        }
-
-        public void CloseLcd()
-        {
-            LogitechGSDK.LogiLcdShutdown();
         }
     }
 }
