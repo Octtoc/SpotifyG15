@@ -1,26 +1,22 @@
-﻿using GDIMusic.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GDITest
+namespace GDIMusic
 {
-    public partial class Form1 : Form
+    public partial class GDITest : Form
     {
-        private static GDIMusic.GDIDynamic gdiDynamic;
-
-        public Form1()
+        private static GDIDynamic gdiDynamic;
+        public GDITest(GDIDynamic xGdiDynamic)
         {
             InitializeComponent();
+            gdiDynamic = xGdiDynamic;
 
-            gdiDynamic = new GDIMusic.GDIDynamic(new Bitmap(160, 43), false);
-            gdiDynamic.AddControl(new GDIText(new Rectangle(10, 10, 10, 10), "Text"));
             pictureBox1.Image = gdiDynamic.Bitmap;
 
             timer1.Enabled = true;

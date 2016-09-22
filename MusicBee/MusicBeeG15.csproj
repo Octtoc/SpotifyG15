@@ -88,9 +88,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GDIDynamic\GDIDynamic.csproj">
+    <ProjectReference Include="..\GDIDynamic\GDIMusic.csproj">
       <Project>{FA6543F3-96D7-40DC-95FE-B38F6D60495D}</Project>
-      <Name>GDIDynamic</Name>
+      <Name>GDIMusic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

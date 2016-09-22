@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace GDIMusic
 {
@@ -14,6 +16,7 @@ namespace GDIMusic
     {
         private System.Timers.Timer _timer = new System.Timers.Timer();
         private List<IGDIControl> gdiControlList = new List<IGDIControl>();
+        private GDITest gdiTest;
 
         public GDIDynamic(Bitmap xBmpGraphics, bool logitechLcd = true)
         {
@@ -27,16 +30,21 @@ namespace GDIMusic
             CurrentBrush = Brushes.Black;
             CurrentPen = new Pen(Color.Black);
 
-            if (LogitechLcd)
-            {
-                LogitechGSDK.LogiLcdInit("G15 TestApp", LogitechGSDK.LOGI_LCD_TYPE_MONO);
-            }
-
             _timer.Elapsed += new ElapsedEventHandler(ATimer_Elapsed);
 
             _timer.Interval = 200;
             _timer.Enabled = true;
             _timer.Start();
+
+            if (LogitechLcd)
+            {
+                LogitechGSDK.LogiLcdInit("G15 TestApp", LogitechGSDK.LOGI_LCD_TYPE_MONO);
+            }
+            else
+            {
+                var thread = new Thread(() => Application.Run(new GDITest(this)));
+                thread.Start();
+            }
         }
 
         ~GDIDynamic()

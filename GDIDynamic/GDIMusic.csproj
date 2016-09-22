@@ -7,8 +7,8 @@
     <ProjectGuid>{FA6543F3-96D7-40DC-95FE-B38F6D60495D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GDIDynamic</RootNamespace>
-    <AssemblyName>GDIDynamic</AssemblyName>
+    <RootNamespace>GDIMusic</RootNamespace>
+    <AssemblyName>GDIMusic</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -72,6 +72,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,6 +85,12 @@
     <Compile Include="Controls\GDIRollingText.cs" />
     <Compile Include="GDIDynamic.cs" />
     <Compile Include="Controls\IGDIControl.cs" />
+    <Compile Include="GDITest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GDITest.Designer.cs">
+      <DependentUpon>GDITest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +98,11 @@
       <Project>{08c9a4a9-4022-429e-a1d7-85e63eb44e52}</Project>
       <Name>LogitechLcdWrapper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GDITest.resx">
+      <DependentUpon>GDITest.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

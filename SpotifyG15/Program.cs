@@ -18,8 +18,10 @@ namespace SpotifyG15
     {
         private static void Main(string[] args)
         {
+            GDIMusic.GDIDynamic gfx = new GDIMusic.GDIDynamic(new Bitmap(160, 43), false);
+
             SpotifyLocalAPI spotify;
-            GDIDynamic gfx = new GDIDynamic(new Bitmap(160, 43));
+
             GDIText gdiTitle = new GDIText(new Rectangle(5, 1, 0, 0), "");
             GDIText gdiTrack = new GDIText(new Rectangle(5, 11, 0, 0), "");
             GDIText gdiTime = new GDIText(new Rectangle(5, 21, 0, 0), "");

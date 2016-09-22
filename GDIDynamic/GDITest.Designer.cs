@@ -1,6 +1,6 @@
-﻿namespace GDITest
+﻿namespace GDIMusic
 {
-    partial class Form1
+    partial class GDITest
     {
         /// <summary>
         /// Required designer variable.
@@ -46,14 +46,14 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // Form1
+            // GDITest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "GDITest";
+            this.Text = "GDITest";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -65,4 +65,3 @@
         private System.Windows.Forms.Timer timer1;
     }
 }
-
