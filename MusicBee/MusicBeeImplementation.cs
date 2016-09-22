@@ -16,8 +16,8 @@ namespace MusicBeePlugin
         private System.Timers.Timer _timer = new System.Timers.Timer();
 
         private GDIDynamic _gdi;
-        private GDIText _artist;
-        private GDIText _title;
+        private GDIRollingText _artist;
+        private GDIRollingText _title;
         private GDIProgressBar _progressLength;
         
         // MusicBee is closing the plugin (plugin is being disabled by user or MusicBee is shutting down)
@@ -74,8 +74,8 @@ namespace MusicBeePlugin
 
             _gdi = new GDIDynamic(new Bitmap(160, 43));
 
-            _title = new GDIText(new Rectangle(10, 3, 10, 10), "");
-            _artist = new GDIText(new Rectangle(10, 12, 0, 0), "");
+            _title = new GDIRollingText(new Rectangle(10, 3, 10, 10), "");
+            _artist = new GDIRollingText(new Rectangle(10, 12, 0, 0), "");
             _progressLength = new GDIProgressBar(new Rectangle(10, 35, 140, 5));
 
             _gdi.AddControl(_title);
@@ -98,14 +98,16 @@ namespace MusicBeePlugin
             switch (type)
             {
                 case NotificationType.PluginStartup:
-
+                    _artist.Text = _mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Artist);
+                    _title.Text = _mbApiInterface.NowPlaying_GetFileTag(MetaDataType.TrackTitle);
+                    _progressLength.Max = _mbApiInterface.NowPlaying_GetDuration();
                     // perform startup initialisation
                     switch (_mbApiInterface.Player_GetPlayState())
                     {
                         case PlayState.Playing:
 
                         case PlayState.Paused:
-
+                            
                             // ...
                             break;
                     }
