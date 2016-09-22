@@ -8,14 +8,18 @@ namespace MusicBeePlugin
 {
     public partial class Plugin
     {
-        private PluginInfo about = new PluginInfo();
-        private GDIText artist;
-        private GDIMusic.GDIDynamic gdi;
-        private MusicBeeApiInterface mbApiInterface;
-        private GDIProgressBar progressLength;
-        private System.Timers.Timer timer = new System.Timers.Timer();
-        private GDIText title;
+        private readonly string MBeePluginName = "GMediaPlugin";
 
+        private MusicBeeApiInterface _mbApiInterface;
+        private PluginInfo about = new PluginInfo();
+
+        private System.Timers.Timer _timer = new System.Timers.Timer();
+
+        private GDIDynamic _gdi;
+        private GDIText _artist;
+        private GDIText _title;
+        private GDIProgressBar _progressLength;
+        
         // MusicBee is closing the plugin (plugin is being disabled by user or MusicBee is shutting down)
         public void Close(PluginCloseReason reason)
         {
@@ -24,7 +28,7 @@ namespace MusicBeePlugin
         public bool Configure(IntPtr panelHandle)
         {
             // save any persistent settings in a sub-folder of this path
-            string dataPath = mbApiInterface.Setting_GetPersistentStoragePath();
+            string dataPath = _mbApiInterface.Setting_GetPersistentStoragePath();
 
             // panelHandle will only be set if you set about.ConfigurationPanelHeight to a non-zero value
             // keep in mind the panel width is scaled according to the font the user has selected
@@ -52,15 +56,15 @@ namespace MusicBeePlugin
 
         public PluginInfo Initialise(IntPtr apiInterfacePtr)
         {
-            mbApiInterface = new MusicBeeApiInterface();
-            mbApiInterface.Initialise(apiInterfacePtr);
+            _mbApiInterface = new MusicBeeApiInterface();
+            _mbApiInterface.Initialise(apiInterfacePtr);
             about.PluginInfoVersion = PluginInfoVersion;
-            about.Name = "G15 App";
-            about.Description = "G15 Applet";
+            about.Name = MBeePluginName;
+            about.Description = MBeePluginName;
             about.Author = "Michael Bubeck";
             about.TargetApplication = "";   // current only applies to artwork, lyrics or instant messenger name that appears in the provider drop down selector or target Instant Messenger
             about.Type = PluginType.General;
-            about.VersionMajor = 1;  // your plugin version
+            about.VersionMajor = 0;  // your plugin version
             about.VersionMinor = 0;
             about.Revision = 1;
             about.MinInterfaceVersion = MinInterfaceVersion;
@@ -68,20 +72,20 @@ namespace MusicBeePlugin
             about.ReceiveNotifications = (ReceiveNotificationFlags.PlayerEvents | ReceiveNotificationFlags.TagEvents);
             about.ConfigurationPanelHeight = 0;   // height in pixels that musicbee should reserve in a panel for config settings. When set, a handle to an empty panel will be passed to the Configure function
 
-            gdi = new GDIDynamic(new Bitmap(160, 43));
+            _gdi = new GDIDynamic(new Bitmap(160, 43));
 
-            title = new GDIText(new Rectangle(10, 3, 10, 10), "");
-            artist = new GDIText(new Rectangle(10, 12, 0, 0), "");
-            progressLength = new GDIProgressBar(new Rectangle(10, 35, 140, 5));
+            _title = new GDIText(new Rectangle(10, 3, 10, 10), "");
+            _artist = new GDIText(new Rectangle(10, 12, 0, 0), "");
+            _progressLength = new GDIProgressBar(new Rectangle(10, 35, 140, 5));
 
-            gdi.AddControl(title);
-            gdi.AddControl(artist);
-            gdi.AddControl(progressLength);
+            _gdi.AddControl(_title);
+            _gdi.AddControl(_artist);
+            _gdi.AddControl(_progressLength);
 
-            timer.Elapsed += Timer_Elapsed;
-            timer.Interval = 100;
-            timer.Enabled = true;
-            timer.Start();
+            _timer.Elapsed += Timer_Elapsed;
+            _timer.Interval = 100;
+            _timer.Enabled = true;
+            _timer.Start();
 
             return about;
         }
@@ -96,7 +100,7 @@ namespace MusicBeePlugin
                 case NotificationType.PluginStartup:
 
                     // perform startup initialisation
-                    switch (mbApiInterface.Player_GetPlayState())
+                    switch (_mbApiInterface.Player_GetPlayState())
                     {
                         case PlayState.Playing:
 
@@ -107,9 +111,9 @@ namespace MusicBeePlugin
                     }
                     break;
                 case NotificationType.TrackChanged:
-                    artist.Text = mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Artist);
-                    title.Text = mbApiInterface.NowPlaying_GetFileTag(MetaDataType.TrackTitle);
-                    progressLength.Max = mbApiInterface.NowPlaying_GetDuration();
+                    _artist.Text = _mbApiInterface.NowPlaying_GetFileTag(MetaDataType.Artist);
+                    _title.Text = _mbApiInterface.NowPlaying_GetFileTag(MetaDataType.TrackTitle);
+                    _progressLength.Max = _mbApiInterface.NowPlaying_GetDuration();
 
                     // ...
                     break;
@@ -138,7 +142,7 @@ namespace MusicBeePlugin
         public void SaveSettings()
         {
             // save any persistent settings in a sub-folder of this path
-            string dataPath = mbApiInterface.Setting_GetPersistentStoragePath();
+            string dataPath = _mbApiInterface.Setting_GetPersistentStoragePath();
         }
 
         // uninstall this plugin - clean up any persisted files
@@ -148,7 +152,7 @@ namespace MusicBeePlugin
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            progressLength.Progress = mbApiInterface.Player_GetPosition();
+            _progressLength.Progress = _mbApiInterface.Player_GetPosition();
         }
     }
 }

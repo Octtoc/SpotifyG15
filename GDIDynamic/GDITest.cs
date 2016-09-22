@@ -11,13 +11,13 @@ namespace GDIMusic
 {
     public partial class GDITest : Form
     {
-        private static GDIDynamic gdiDynamic;
+        private static GDIDynamic _gdiDynamic;
         public GDITest(GDIDynamic xGdiDynamic)
         {
             InitializeComponent();
-            gdiDynamic = xGdiDynamic;
+            _gdiDynamic = xGdiDynamic;
 
-            pictureBox1.Image = gdiDynamic.Bitmap;
+            pictureBox1.Image = _gdiDynamic.Bitmap;
 
             timer1.Enabled = true;
             timer1.Interval = 100;

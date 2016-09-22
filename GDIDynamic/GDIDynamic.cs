@@ -16,9 +16,9 @@ namespace GDIMusic
 {
     public class GDIDynamic
     {
+        private readonly string G15APPNAME = "GMedia";
         private System.Timers.Timer _timer = new System.Timers.Timer();
-        private List<IGDIControl> gdiControlList = new List<IGDIControl>();
-        private GDITest gdiTest;
+        private List<IGDIControl> _gdiControlList = new List<IGDIControl>();
 
         public GDIDynamic(Bitmap xBmpGraphics, bool logitechLcd = true)
         {
@@ -58,7 +58,7 @@ namespace GDIMusic
 
             if (LogitechLcd)
             {
-                LogitechGSDK.LogiLcdInit("G15 TestApp", LogitechGSDK.LOGI_LCD_TYPE_MONO);
+                LogitechGSDK.LogiLcdInit(G15APPNAME, LogitechGSDK.LOGI_LCD_TYPE_MONO);
             }
             else
             {
@@ -81,7 +81,7 @@ namespace GDIMusic
 
         public void AddControl(IGDIControl gdiControl)
         {
-            gdiControlList.Add(gdiControl);
+            _gdiControlList.Add(gdiControl);
         }
 
         public void CloseLcd()
@@ -102,7 +102,7 @@ namespace GDIMusic
             Graphics.DrawEllipse(CurrentPen, new Rectangle(10, 10, 20, 20));
             */
 
-            foreach (var gdiControl in gdiControlList)
+            foreach (var gdiControl in _gdiControlList)
             {
                 gdiControl.Draw(Graphics, CurrentBrush, CurrentFont, CurrentPen);
             }

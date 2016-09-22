@@ -1,6 +1,5 @@
 ﻿using GDIMusic;
 using GDIMusic.Controls;
-using LogitechLcdWrapper;
 using SpotifyAPI.Local;
 using SpotifyAPI.Local.Models;
 using System;
@@ -16,7 +15,7 @@ namespace SpotifyG15
     {
         private static void Main(string[] args)
         {
-            GDIMusic.GDIDynamic gfx = new GDIMusic.GDIDynamic(new Bitmap(160, 43));
+            GDIDynamic gfx = new GDIMusic.GDIDynamic(new Bitmap(160, 43));
             SpotifyLocalAPI spotify = new SpotifyLocalAPI();
 
             GDIText gdiTitle = new GDIText(new Rectangle(5, 1, 0, 0), "");
@@ -70,24 +69,6 @@ namespace SpotifyG15
                 gdiTime.Text = time;
                 gdiProgress.Max = status.Track.Length;
                 gdiProgress.Progress = Convert.ToInt32((status.PlayingPosition));
-
-                if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_0))
-                {
-                    Console.WriteLine(spotify.Pause());
-                }
-                else if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_1))
-                {
-                }
-                else if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_2))
-                {
-                    Console.WriteLine(spotify.Play());
-                }
-                else if (LogitechGSDK.LogiLcdIsButtonPressed(LogitechGSDK.LOGI_LCD_MONO_BUTTON_3))
-                {
-                }
-                else
-                {
-                }
 
                 Thread.Sleep(200);
             }
